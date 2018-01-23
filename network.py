@@ -47,6 +47,17 @@ class Layer(object):
         if rng is None:
             rng = np.random
         self.rng = rng
+       
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        if state['rng'] == np.random:
+            state['rng'] = None
+        return state
+    
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        if self.rng == None:
+            self.rng = np.random
     
     @property
     def parameters(self):
